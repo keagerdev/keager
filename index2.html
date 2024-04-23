@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+    <title>Your Digital Art Portfolio</title>
+    <style>
+        /* Custom styles for carousel and animations */
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 1rem;
+            padding: 1rem;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;  /* Internet Explorer 10+ */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .carousel::-webkit-scrollbar {
+            display: none;  /* Safari and Chrome */
+        }
+        .carousel-item {
+            scroll-snap-align: start;
+            flex: none;
+            width: 100%;
+            flex-shrink: 0;
+            border-radius: 8px;
+            position: relative;
+            transition: transform 0.3s ease-in-out;
+        }
+        .carousel-item:hover {
+            transform: scale(1.05);
+        }
+        header {
+            transition: background-color 0.3s ease-in-out;
+        }
+        header:hover {
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+        .hover-effect:hover {
+            color: #4a56e2; /* Change to your preferred hover color */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900 smooth-scroll">
+    <!-- Header -->
+    <header class="text-gray-900 body-font fixed w-full bg-white bg-opacity-0 backdrop-filter backdrop-blur-lg z-10">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <!-- Logo Image -->
+            <a href="#home" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+                <img src="KE.png" alt="Logo" class="w-15 h-10 text-white p-0 bg-white rounded-full">
+        
+            </a>
+            <!-- Navigation -->
+            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <a href="#home" class="mr-5 hover-effect">Home</a>
+                <a href="#about" class="mr-5 hover-effect">About Me</a>
+                <a href="#projects" class="mr-5 hover-effect">Projects</a>
+                <a href="#contact" class="hover-effect">Contact</a>
+            </nav>
+        </div>
+    </header>    
+
+    <!-- Home Section -->
+    <section id="home" class="w-full h-screen pt-20">
+        <img class="w-full h-full object-cover" src="halstatt.jpg" alt="Artwork">
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="bg-white body-font">
+        <div class="container mx-auto flex px-10 py-24 md:flex-row flex-col items-center">
+            <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
+                <img class="object-cover object-center rounded" src="dad.jpg" alt="your image">
+            </div>
+            <div class="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">About Me</h1>
+                <p class="mb-8 leading-relaxed">Here is a brief description about myself, my background, achievements and aspirations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="text-gray-700 body-font">
+        <div class="container mx-auto text-center">
+            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">My Projects</h1>
+            <div class="carousel">
+                <!-- Carousel Items -->
+                <div class="carousel-item bg-gray-100 p-8">
+                    <h2 class="text-lg title-font font-medium text-gray-900">Project 1</h2>
+                    <p class="leading-relaxed">Description and completion date of Project 1.</p>
+                </div>
+                <div class="carousel-item bg-gray-100 p-8">
+                    <h2 class="text-lg title-font font-medium text-gray-900">Project 2</h2>
+                    <p class="leading-relaxed">Description and completion date of Project 2.</p>
+                </div>
+                <div class="carousel-item bg-gray-100 p-8">
+                    <h2 the "text-lg title-font font-medium text-gray-900">Project 3</h2>
+                    <p class="leading-relaxed">Description and completion date of Project 3.</p>
+                </div>
+                <div class="carousel-item bg-gray-100 p-8">
+                    <h2 class="text-lg title-font font-medium text-gray-900">Project 4</h2>
+                    <p class="leading-relaxed">Description and completion date of Project 4.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="body-font relative">
+        <div class="container px-5 py-24 mx-auto">
+            <div class="lg:w-1/3 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col mx-auto w-full mt-10 md:mt-0">
+                <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Contact Me</h2>
+                <p class="leading-relaxed mb-5 text-gray-700">Feel free to reach out for collaborations or just a friendly hello!</p>
+                <div class="relative mb-4">
+                    <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
+                    <input type="text" id="name" name="name" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                </div>
+                <div class="relative mb-4">
+                    <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
+                    <input type="email" id="email" name="email" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                </div>
+                <div class="relative mb-4">
+                    <label for="message" class="leading-7 text-sm text-gray-600">Message</label>
+                    <textarea id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+                </div>
+                <button class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Send</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-gray-600 body-font bg-white">
+        <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+            <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+                <span class="ml-3 text-xl">Kieron Eager</span>
+            </a>
+            <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">© 2024 Kieron Eager —
+                <a href="https://twitter.com/yourusername" class="text-gray-600 ml-1" target="_blank" rel="noopener noreferrer">@_keager</a>
+            </p>
+            <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+                <a href="#" class="text-gray-500">
+                    <img src="https://icons.bootstrapicons.com/icons/facebook.svg" alt="Facebook" class="w-5 h-5">
+                </a>
+                <a href="#" class="ml-3 text-gray-500">
+                    <img src="https://icons.bootstrapicons.com/icons/twitter.svg" alt="Twitter" class="w-5 h-5">
+                </a>
+                <a href="#" class="ml-3 text-gray-500">
+                    <img src="https://icons.bootstrapicons.com/icons/linkedin.svg" alt="LinkedIn" class="w-5 h-5">
+                </a>
+            </span>
+        </div>
+    </footer>
+</body>
+</html>
