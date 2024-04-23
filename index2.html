@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet">
     <title>Your Digital Art Portfolio</title>
     <style>
         /* Custom styles for carousel and animations */
@@ -38,20 +39,26 @@
         header:hover {
             background-color: rgba(255, 255, 255, 0.85);
         }
-        .hover-effect:hover {
-            color: #4a56e2; /* Change to your preferred hover color */
+        .hover-effect, .hover-effect:hover {
+            font-weight: bold; /* Make navigation bar text bold */
+            color: #333; /* Change to your preferred hover color */
             cursor: pointer;
+        }
+        .testimonial-text {
+            color: #333; /* Standard text color for consistency */
+            font-size: 16px; /* Standard font size for text */
+            line-height: 1.5; /* Standard line height for readability */
+            font-family: Arial, sans-serif; /* Standard font family */
         }
     </style>
 </head>
 <body class="bg-white text-gray-900 smooth-scroll">
     <!-- Header -->
-    <header class="text-gray-900 body-font fixed w-full bg-white bg-opacity-0 backdrop-filter backdrop-blur-lg z-10">
+    <header class="text-gray-1000 body-font fixed w-full bg-white bg-opacity-0 backdrop-filter backdrop-blur-lg z-10">
         <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
             <!-- Logo Image -->
             <a href="#home" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
                 <img src="KE.png" alt="Logo" class="w-15 h-10 text-white p-0 bg-white rounded-full">
-        
             </a>
             <!-- Navigation -->
             <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
@@ -81,29 +88,34 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="text-gray-700 body-font">
-        <div class="container mx-auto text-center">
-            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">My Projects</h1>
-            <div class="carousel">
-                <!-- Carousel Items -->
-                <div class="carousel-item bg-gray-100 p-8">
-                    <h2 class="text-lg title-font font-medium text-gray-900">Project 1</h2>
-                    <p class="leading-relaxed">Description and completion date of Project 1.</p>
+    <!-- Testimonials Section -->
+    <section class="max-w-7xl mx-auto px-5 py-20">
+        <h2 class="text-3xl font-bold text-center text-gray-800">Testimonials</h2>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="text-center p-4">
+                        <img src="https://picsum.photos/100/100" alt="Client 1" class="mx-auto rounded-full w-24 h-24 object-cover">
+                        <blockquote class="italic text-gray-600 mt-4 testimonial-text">"Excellent service with a personal touch. Couldn’t ask for better!"</blockquote>
+                        <p class="font-semibold mt-2 testimonial-text">- John Doe, CEO of Initech</p>
+                    </div>
                 </div>
-                <div class="carousel-item bg-gray-100 p-8">
-                    <h2 class="text-lg title-font font-medium text-gray-900">Project 2</h2>
-                    <p class="leading-relaxed">Description and completion date of Project 2.</p>
+                <div class="swiper-slide">
+                    <div class="text-center p-4">
+                        <img src="https://picsum.photos/100/100?2" alt="Client 2" class="mx-auto rounded-full w-24 h-24 object-cover">
+                        <blockquote class="italic text-gray-600 mt-4 testimonial-text">"They turned our ideas into reality. Fantastic guidance and professionalism."</blockquote>
+                        <p class="font-semibold mt-2 testimonial-text">- Jane Smith, Architect</p>
+                    </div>
                 </div>
-                <div class="carousel-item bg-gray-100 p-8">
-                    <h2 the "text-lg title-font font-medium text-gray-900">Project 3</h2>
-                    <p class="leading-relaxed">Description and completion date of Project 3.</p>
-                </div>
-                <div class="carousel-item bg-gray-100 p-8">
-                    <h2 class="text-lg title-font font-medium text-gray-900">Project 4</h2>
-                    <p class="leading-relaxed">Description and completion date of Project 4.</p>
+                <div class="swiper-slide">
+                    <div class="text-center p-4">
+                        <img src="https://picsum.photos/100/100?3" alt="Client 3" class="mx-auto rounded-full w-24 h-24 object-cover">
+                        <blockquote class="italic text-gray-600 mt-4 testimonial-text">"Very professional, timely, and flexible, highly recommended."</blockquote>
+                        <p class="font-semibold mt-2 testimonial-text">- Alice Johnson, Designer</p>
+                    </div>
                 </div>
             </div>
+            <div class="swiper-pagination" style="padding-bottom:200px"></div>
         </div>
     </section>
 
@@ -152,5 +164,21 @@
             </span>
         </div>
     </footer>
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+      var swiper = new Swiper('.mySwiper', {
+        loop: true,
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+      });
+    </script>
 </body>
 </html>
+
