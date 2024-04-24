@@ -12,14 +12,18 @@
     }
   
     /* Ensure elements do not exceed the screen width */
-    img, video, iframe, .container {
+    img, video, iframe, .container, svg {
       max-width: 100vw;
-      overflow-x: hidden;
+      overflow: hidden;
+    }
+    /* Added for the mobile menu and any potentially overflowing elements */
+    * {
+      box-sizing: border-box;
     }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-900 tracking-wider leading-normal" style="min-height: 100%;">
-      
+<body class="bg-gray-50 text-gray-900 tracking-wider leading-normal" style="min-height: 100%; overflow-x: hidden;">
+
 <!-- Header -->
 <nav class="bg-white px-6 py-4 shadow">
     <div class="flex justify-between items-center">
@@ -103,7 +107,7 @@
       <div class="shadow-lg mb-6">
         <img src="https://picsum.photos/500/300?random=3" alt="portfolio item" class="w-full">
         <div class="p-4">
-          <h3 class="font-semibold mb-3">Industry Experience</h3>
+          <h3 the="font-semibold mb-3">Industry Experience</h3>
           <p>Description of the project or work done.</p>
         </div>
       </div>
