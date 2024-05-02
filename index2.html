@@ -8,21 +8,49 @@
 <link rel="icon" type="image/png" href="https://www.keager.net/favicon.png">
 <style>
     body {
-      overflow-x: hidden; /* Prevent horizontal scrolling */
+      overflow-x: hidden;
     }
-  
-    /* Ensure elements do not exceed the screen width */
     img, video, iframe, .container, svg {
       max-width: 100%;
       overflow: hidden;
     }
-    /* Added for the mobile menu and any potentially overflowing elements */
     * {
       box-sizing: border-box;
     }
-  </style>
+    /* Hover effect for navigation links */
+    .nav-link {
+      position: relative;
+      display: block;
+      text-align: center;
+      width: 80px; /* Adjust width as needed */
+      font-weight: bold; /* Make text bold */
+    }
+    .nav-link img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px; /* Icon size */
+      height: 24px; /* Icon size */
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .nav-link span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s ease;
+    }
+    .nav-link:hover span {
+      opacity: 0;
+    }
+    .nav-link:hover img {
+      opacity: 1;
+    }
+</style>
 </head>
-<body class="bg-gray-50 text-gray-900 tracking-wider leading-normal overflow-x-hidden"></body>
+<body class="bg-gray-50 text-gray-900 tracking-wider leading-normal">
 
 <!-- Header -->
 <nav class="bg-white px-6 py-4 shadow">
@@ -32,25 +60,37 @@
       </a>
       <div class="md:hidden">
         <button onclick="toggleMenu()" class="text-gray-800 focus:outline-none">
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
         </button>
       </div>
-      <div class="hidden md:flex space-x-8 font-bold">
-        <a href="#home" class="hover:text-gray-700">Home</a>
-        <a href="#about" class="hover:text-gray-700">About</a>
-        <a href="#portfolio" class="hover:text-gray-700">Portfolio</a>
-        <a href="#contact" class="hover:text-gray-700">Contact</a>
+      <div class="hidden md:flex space-x-6">  <!-- Reduced spacing -->
+        <a href="#home" class="nav-link group">
+          <span>Home</span>
+          <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/icons/house.svg" alt="Home">
+        </a>
+        <a href="#about" class="nav-link">
+          <span>About</span>
+          <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/icons/person.svg" alt="About">
+        </a>
+        <a href="#portfolio" class="nav-link">
+          <span>Portfolio</span>
+          <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/icons/briefcase.svg" alt="Portfolio">
+        </a>
+        <a href="#contact" class="nav-link">
+          <span>Contact</span>
+          <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/icons/envelope.svg" alt="Contact">
+        </a>
       </div>
     </div>
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden">
+    <div id="mobile-menu" class="hidden">
       <a href="#home" class="block py-2 hover:text-gray-700">Home</a>
       <a href="#about" class="block py-2 hover:text-gray-700">About</a>
       <a href="#portfolio" class="block py-2 hover:text-gray-700">Portfolio</a>
       <a href="#contact" class="block py-2 hover:text-gray-700">Contact</a>
     </div>
   </nav>
-  
+
   <script>
   function toggleMenu() {
     var menu = document.getElementById("mobile-menu");
@@ -60,23 +100,26 @@
       menu.style.display = "block";
     }
   }
-  </script>   
+  </script>
 
 <!-- Hero Section -->
-<section id="home" class="flex items-center justify-center min-h-screen bg-cover bg-center overflow-hidden" style="background-image: url('https://picsum.photos/1024/768');">
+<section id="home" class="flex items-center justify-center min-h-screen bg-cover bg-center overflow-hidden" style="background-image: url('halstatt.jpg');">
   <div class="text-center bg-black bg-opacity-0 rounded py-18 px-5 sm:px-0">
     <h1 class="text-6xl md:text-8xl text-white font-bold mb-4">Hello? Are You Lost?</h1>
     <div class="h-8"></div> <!-- Adjustable spacer -->
-    <a href="#portfolio" class="px-6 py-3 bg-blue-500 text-white rounded-md shadow-lg text-xl md:text-2xl">Find Out More</a>
+    <a href="#portfolio" class="px-6 py-3 bg-blue-500 text-white rounded-md shadow-lg text-xl md:text-2xl transition duration-300 ease-in-out transform hover:translate-y-1 hover:bg-blue-600">
+      Find Out More
+    </a>
   </div>
 </section>
+
 
 <!-- About Section -->
 <section id="about" class="container mx-auto px-6 py-10">
   <div class="text-center">
     <h2 class="text-3xl font-semibold">About Me</h2>
     <div class="flex justify-center mt-6">
-      <img src="https://picsum.photos/200/300" class="rounded-full w-40 h-40 shadow-lg" alt="profile image">
+      <img src="dad.jpg" class="rounded-full w-40 h-40 shadow-lg" alt="profile image">
     </div>
     <p class="mt-6 leading-relaxed max-w-2xl mx-auto">
       I am a passionate web developer and designer with a knack for creating engaging, user-friendly websites and applications. With a background in graphic design and coding, I blend aesthetics with functionality.
@@ -84,32 +127,29 @@
   </div>
 </section>
 
-<!-- Portfolio Section -->
 <section id="portfolio" class="bg-gray-100 py-10">
   <div class="container mx-auto px-6">
     <h2 class="text-center text-3xl font-semibold">My Portfolio</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6">
-      <!-- Sample Portfolio Item -->
-      <div class="shadow-lg mb-6">
+      <div class="shadow-lg mb-6 transition duration-300 ease-in-out transform hover:-translate-y-1">
         <img src="https://picsum.photos/500/300?random=1" alt="portfolio item" class="w-full">
         <div class="p-4">
-          <h3 class="font-semibold mb-3">Curiculum Vitae</h3>
-          <p>Description of the project or work done.</p>
+          <h3 class="font-semibold mb-3">Curriculum Vitae</h3>
+          <p>Click here to grab a digital copy of my CV.</p>
         </div>
       </div>
-      <!-- More items... -->
-      <div class="shadow-lg mb-6">
+      <div class="shadow-lg mb-6 transition duration-300 ease-in-out transform hover:-translate-y-1">
         <img src="https://picsum.photos/500/300?random=2" alt="portfolio item" class="w-full">
         <div class="p-4">
           <h3 class="font-semibold mb-3">Passion Projects</h3>
-          <p>Description of the project or work done.</p>
+          <p>Here is what I have been up to outside of work.</p>
         </div>
       </div>
-      <div class="shadow-lg mb-6">
+      <div class="shadow-lg mb-6 transition duration-300 ease-in-out transform hover:-translate-y-1">
         <img src="https://picsum.photos/500/300?random=3" alt="portfolio item" class="w-full">
         <div class="p-4">
-          <h3 the="font-semibold mb-3">Industry Experience</h3>
-          <p>Description of the project or work done.</p>
+          <h3 class="font-semibold mb-3">Industry Experience</h3>
+          <p>Read through the career highlight reel.</p>
         </div>
       </div>
     </div>
