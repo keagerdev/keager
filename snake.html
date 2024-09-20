@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake Arcade Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    #snakeGameCanvas {
+      background-color: #f0f0f0;
+    }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-link img {
+      width: 16px;
+      height: 16px;
+    }
+    body {
+      overflow-x: hidden;
+    }
+    img, video, iframe, .container, svg {
+      max-width: 100%;
+      overflow: hidden;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    .nav-link {
+      position: relative;
+      display: block;
+      text-align: center;
+      width: 80px;
+      font-weight: bold;
+    }
+    .nav-link img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 24px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .nav-link span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s ease;
+    }
+    .nav-link:hover span {
+      opacity: 0;
+    }
+    .nav-link:hover img {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Navigation Bar -->
+  <nav class="bg-white px-6 py-4 shadow">
+    <div class="flex justify-between items-center">
+      <a href="https://www.keager.net">
+        <img src="KE.png" alt="Kieron Eager Logo" class="h-14">
+      </a>
+      <div class="md:hidden">
+        <button onclick="toggleMenu()" class="text-gray-800 focus:outline-none">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="hidden md:flex flex-grow justify-end space-x-6">
+        <a href="https://www.keager.net" class="nav-link group">
+          <span>Home</span>
+          <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/icons/house.svg" alt="Home">
+        </a>
+        <a href="#projects" class="nav-link">
+          <span>Projects</span>
+          <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/icons/bookmarks.svg" alt="Projects">
+        </a>
+        <a href="#dev" class="nav-link">
+          <span>Dev</span>
+          <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/icons/code.svg" alt="Dev">
+        </a>
+        <a href="#leaderboard" class="nav-link">
+          <span>Leaderboard</span>
+          <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/icons/bar-chart.svg" alt="Leaderboard">
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Jukebox Section -->
+      <div class="bg-white shadow-md p-6 rounded-lg">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Jukebox</h2>
+        <div class="flex justify-center">
+          <iframe src="https://open.spotify.com/embed/playlist/0sI7mlpvRfVdBh4XXhSv74" width="300" height="380" frameborder="0" allow="encrypted-media" allowtransparency="true"></iframe>
+        </div>
+        <div class="text-center mt-4">
+          <p><a href="https://open.spotify.com/user/kieroneager" class="text-indigo-600 hover:text-indigo-400" target="_blank">Follow me on Spotify</a></p>
+        </div>
+      </div>
+
+      <!-- Snake Game Section -->
+      <div class="bg-white shadow-md p-6 rounded-lg flex flex-col items-center">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Snake Game</h2>
+        <canvas id="snakeGameCanvas" width="400" height="400" class="border border-gray-300 w-full h-64"></canvas>
+        
+        <!-- Game Controls -->
+        <div class="mt-4">
+          <label for="playerName" class="block text-gray-700">Enter your name to start:</label>
+          <input type="text" id="playerName" class="border p-2 rounded w-full" placeholder="Your Name">
+          <button id="startButton" class="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+            Start Game
+          </button>
+          <button id="pauseButton" class="mt-4 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
+            Pause Game
+          </button>
+        </div>
+
+        <!-- Score Display -->
+        <div class="mt-6">
+          <p class="text-lg font-semibold text-gray-800">Score: <span id="currentScore">0</span></p>
+        </div>
+      </div>
+
+      <!-- Leaderboard Section -->
+      <div class="bg-white shadow-md p-6 rounded-lg">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Leaderboard</h2>
+        <ul id="leaderboard" class="space-y-2">
+          <!-- Leaderboard will be dynamically updated -->
+        </ul>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white shadow-md mt-8">
+    <div class="container mx-auto px-4 py-4 text-center">
+      <p class="text-gray-700">© 2024 Snake Arcade. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Firebase SDKs -->
+  <script type="module">
+    // Import Firebase functions
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-app.js";
+    import { getDatabase, ref, set, push, onValue, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-database.js";
+  
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAzl-yLuk5YnaVYd9Y6vFeQLNpi3aUbfQ8",
+      authDomain: "snake-b253c.firebaseapp.com",
+      databaseURL: "https://snake-b253c-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "snake-b253c",
+      storageBucket: "snake-b253c.appspot.com",
+      messagingSenderId: "209134760370",
+      appId: "1:209134760370:web:c1d3c44695cbcbbee8b4ab",
+      measurementId: "G-2WB41B6GT8"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+  
+    // Initialize game variables
+    const canvas = document.getElementById('snakeGameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreDisplay = document.getElementById('currentScore');
+    const startButton = document.getElementById('startButton');
+    const pauseButton = document.getElementById('pauseButton');
+  
+    let snake = [{ x: 10, y: 10 }];
+    let direction = { x: 1, y: 0 }; // Start moving right
+    let food = { x: 15, y: 15 };
+    let score = 0;
+    let interval;
+    let paused = false;
+    const boxSize = 20;
+    let gameOver = false;
+  
+    // Function to draw the snake
+    function drawSnake() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas before drawing
+      snake.forEach(part => {
+        ctx.fillStyle = '#4caf50';
+        ctx.fillRect(part.x * boxSize, part.y * boxSize, boxSize, boxSize);
+      });
+    }
+  
+    // Function to draw the food
+    function drawFood() {
+      ctx.fillStyle = '#ff0000';
+      ctx.fillRect(food.x * boxSize, food.y * boxSize, boxSize, boxSize);
+    }
+  
+    // Function to move the snake
+    function moveSnake() {
+      const newHead = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+  
+      // Check for food collision
+      if (newHead.x === food.x && newHead.y === food.y) {
+        score += 10;
+        scoreDisplay.textContent = score;
+        placeFood(); // Generate new food
+      } else {
+        snake.pop(); // Remove the last part of the snake if no food eaten
+      }
+  
+      snake.unshift(newHead); // Add new head to the snake
+  
+      // Check for wall collision or self-collision
+      if (checkCollision(newHead)) {
+        endGame();
+      }
+    }
+  
+    // Function to check if the snake collides with itself or a wall
+    function checkCollision(newHead) {
+      // Check wall collision
+      if (
+        newHead.x < 0 || newHead.y < 0 || 
+        newHead.x >= canvas.width / boxSize || 
+        newHead.y >= canvas.height / boxSize
+      ) {
+        return true;
+      }
+  
+      // Check self-collision
+      for (let i = 1; i < snake.length; i++) {
+        if (newHead.x === snake[i].x && newHead.y === snake[i].y) {
+          return true;
+        }
+      }
+  
+      return false;
+    }
+  
+    // Function to randomly place food
+    function placeFood() {
+      food = {
+        x: Math.floor(Math.random() * (canvas.width / boxSize)),
+        y: Math.floor(Math.random() * (canvas.height / boxSize))
+      };
+    }
+  
+    // Function to end the game
+    function endGame() {
+      clearInterval(interval); // Stop the game loop
+      saveScoreToFirebase(document.getElementById('playerName').value || 'Anonymous', score);
+      alert('Game Over! Your score: ' + score);
+      resetGame(); // Reset the game
+    }
+  
+    // Game loop function
+    function gameLoop() {
+      if (!paused) {
+        moveSnake();
+        drawSnake();
+        drawFood();
+      }
+    }
+  
+    // Function to reset the game
+    function resetGame() {
+      snake = [{ x: 10, y: 10 }];
+      direction = { x: 1, y: 0 }; // Move right by default
+      score = 0;
+      scoreDisplay.textContent = score;
+      placeFood();
+      gameOver = false;
+    }
+  
+    // Event listeners for controls
+    startButton.addEventListener('click', () => {
+      if (gameOver) {
+        resetGame(); // Reset game if it's over
+      }
+      clearInterval(interval); // Clear previous interval (if any)
+      interval = setInterval(gameLoop, 150); // Start game loop
+    });
+  
+    pauseButton.addEventListener('click', () => {
+      paused = !paused;
+      pauseButton.textContent = paused ? 'Resume Game' : 'Pause Game';
+    });
+  
+    // Handle arrow key inputs for controlling the snake
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowUp' && direction.y === 0) direction = { x: 0, y: -1 };
+      if (e.key === 'ArrowDown' && direction.y === 0) direction = { x: 0, y: 1 };
+      if (e.key === 'ArrowLeft' && direction.x === 0) direction = { x: -1, y: 0 };
+      if (e.key === 'ArrowRight' && direction.x === 0) direction = { x: 1, y: 0 };
+    });
+  
+    // Firebase: Save score to leaderboard
+    function saveScoreToFirebase(playerName, playerScore) {
+      const leaderboardRef = ref(database, 'leaderboard');
+      push(leaderboardRef, {
+        name: playerName,
+        score: playerScore
+      });
+    }
+  
+    // Firebase: Get leaderboard and display it
+    function getLeaderboardFromFirebase() {
+      const leaderboardRef = query(ref(database, 'leaderboard'), orderByChild('score'), limitToLast(5));
+  
+      onValue(leaderboardRef, (snapshot) => {
+        const leaderboardData = [];
+        snapshot.forEach((childSnapshot) => {
+          leaderboardData.push(childSnapshot.val());
+        });
+  
+        leaderboardData.reverse(); // Firebase returns ascending order, so reverse for descending
+        displayLeaderboard(leaderboardData);
+      });
+    }
+  
+    // Display leaderboard data
+    function displayLeaderboard(leaderboardData) {
+      const leaderboardElement = document.getElementById('leaderboard');
+      leaderboardElement.innerHTML = ''; // Clear current leaderboard
+  
+      leaderboardData.forEach((player, index) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${index + 1}. ${player.name}: ${player.score} points`;
+        leaderboardElement.appendChild(listItem);
+      });
+    }
+  
+    // Fetch leaderboard when the page loads
+    window.onload = () => {
+      getLeaderboardFromFirebase();
+    };
+  </script>  
+</body>
+</html>
