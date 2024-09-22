@@ -89,46 +89,51 @@
 </head>
 <body class="bg-gray-100">
 
-  <!-- Navigation Bar -->
-  <nav class="bg-white px-6 py-4 shadow">
-    <div class="flex justify-between items-center">
-      <a href="https://www.keager.net">
-        <img src="KE.png" alt="Kieron Eager Logo" class="h-14">
-      </a>
-      <div class="md:hidden">
-        <button onclick="toggleMenu()" class="text-gray-800 focus:outline-none">
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-          </svg>
-        </button>
-      </div>
-      <div class="hidden md:flex flex-grow justify-end space-x-6">
-        <a href="https://www.keager.net" class="nav-link group">
-          <span>Home</span>
-          <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/icons/house.svg" alt="Home">
-        </a>
-        <a href="https://www.keager.net/projects" class="nav-link">
-          <span>Projects</span>
-          <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/icons/bookmarks.svg" alt="Projects">
-        </a>
-      </div>
-      <!-- Mobile Menu -->
-      <div id="mobile-menu" class="hidden">
-        <a href="https://www.keager.net" class="block py-2 hover:text-gray-700">Home</a>
-        <a href="https://www.keager.net/projects" class="block py-2 hover:text-gray-700">Projects</a>
-      </div>
+<!-- Navigation Bar -->
+<nav class="bg-white px-6 py-4 shadow">
+  <div class="flex justify-between items-center">
+    <a href="https://www.keager.net">
+      <img src="KE.png" alt="Kieron Eager Logo" class="h-14">
+    </a>
+    <!-- Hamburger Button for Mobile -->
+    <div class="md:hidden">
+      <button onclick="toggleMenu()" class="text-gray-800 focus:outline-none">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
     </div>
-  </nav>
-  <script>
-    function toggleMenu() {
-      var menu = document.getElementById("mobile-menu");
-      if (menu.style.display === "block") {
-        menu.style.display = "none";
-      } else {
-        menu.style.display = "block";
-      }
+    <!-- Desktop Menu -->
+    <div class="hidden md:flex flex-grow justify-end space-x-6">
+      <a href="https://www.keager.net" class="nav-link group">
+        <span>Home</span>
+        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/icons/house.svg" alt="Home">
+      </a>
+      <a href="https://www.keager.net/projects" class="nav-link">
+        <span>Projects</span>
+        <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/icons/bookmarks.svg" alt="Projects">
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobile Menu (hidden by default) -->
+  <div id="mobile-menu" class="hidden flex-col items-start bg-white shadow-md mt-2 w-full space-y-1">
+    <a href="https://www.keager.net" class="block w-full py-2 px-4 text-left text-gray-700 hover:bg-gray-200">Home</a>
+    <a href="https://www.keager.net/projects" class="block w-full py-2 px-4 text-left text-gray-700 hover:bg-gray-200">Projects</a>
+  </div>
+</nav>
+
+<!-- Script to toggle the mobile menu -->
+<script>
+  function toggleMenu() {
+    var menu = document.getElementById("mobile-menu");
+    if (menu.classList.contains("hidden")) {
+      menu.classList.remove("hidden");
+    } else {
+      menu.classList.add("hidden");
     }
-  </script>
+  }
+</script>
 
   <!-- Main Content -->
   <div class="container mx-auto px-4 py-8">
@@ -137,7 +142,7 @@
       <div class="bg-white shadow-md p-6 rounded-lg flex flex-col justify-between h-full">
         <h2 class="text-xl font-semibold text-gray-800 mb-4">Jukebox</h2>
         <div class="flex justify-center">
-          <iframe src="https://open.spotify.com/embed/playlist/0sI7mlpvRfVdBh4XXhSv74" width="300" height="380" frameborder="0" allow="encrypted-media" allowtransparency="true"></iframe>
+          <iframe src="https://open.spotify.com/embed/playlist/0sI7mlpvRfVdBh4XXhSv74" width="340" height="580" frameborder="0" allow="encrypted-media" allowtransparency="true"></iframe>
         </div>
         <div class="text-center mt-4">
           <p><a href="https://open.spotify.com/user/kieroneager" class="text-indigo-600 hover:text-indigo-400" target="_blank">Follow me on Spotify</a></p>
