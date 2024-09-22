@@ -60,6 +60,29 @@
     .nav-link:hover img {
       opacity: 1;
     }
+
+    /* Style for virtual buttons */
+    .controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    .control-button {
+      width: 60px;
+      height: 60px;
+      background-color: #4caf50;
+      color: white;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      margin: 8px;
+      cursor: pointer;
+    }
+    .control-button:hover {
+      background-color: #45a049;
+    }
   </style>
 </head>
 <body class="bg-gray-100">
@@ -146,6 +169,16 @@
           </button>
         </div>
 
+        <!-- Virtual Controls for Mobile -->
+        <div class="controls">
+          <button class="control-button" id="upButton">▲</button>
+        </div>
+        <div class="controls">
+          <button class="control-button" id="leftButton">◀</button>
+          <button class="control-button" id="downButton">▼</button>
+          <button class="control-button" id="rightButton">▶</button>
+        </div>
+
         <!-- Score Display -->
         <div class="mt-6">
           <p class="text-lg font-semibold text-gray-800">Score: <span id="currentScore">0</span></p>
@@ -182,11 +215,9 @@
 
   <!-- Firebase SDKs and Script for Snake Game and Leaderboard -->
   <script type="module">
-    // Firebase SDK
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-app.js";
     import { getDatabase, ref, set, push, onValue, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-database.js";
 
-    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAzl-yLuk5YnaVYd9Y6vFeQLNpi3aUbfQ8",
       authDomain: "snake-b253c.firebaseapp.com",
@@ -198,7 +229,6 @@
       measurementId: "G-2WB41B6GT8"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
@@ -208,6 +238,10 @@
     const scoreDisplay = document.getElementById('currentScore');
     const startButton = document.getElementById('startButton');
     const pauseButton = document.getElementById('pauseButton');
+    const upButton = document.getElementById('upButton');
+    const downButton = document.getElementById('downButton');
+    const leftButton = document.getElementById('leftButton');
+    const rightButton = document.getElementById('rightButton');
 
     let snake = [{ x: 10, y: 10 }];
     let direction = { x: 1, y: 0 };
@@ -323,6 +357,20 @@
       if (e.key === 'ArrowRight' && direction.x === 0) direction = { x: 1, y: 0 };
     });
 
+    // Mobile controls for the snake
+    upButton.addEventListener('click', () => {
+      if (direction.y === 0) direction = { x: 0, y: -1 };
+    });
+    downButton.addEventListener('click', () => {
+      if (direction.y === 0) direction = { x: 0, y: 1 };
+    });
+    leftButton.addEventListener('click', () => {
+      if (direction.x === 0) direction = { x: -1, y: 0 };
+    });
+    rightButton.addEventListener('click', () => {
+      if (direction.x === 0) direction = { x: 1, y: 0 };
+    });
+
     // Save score to Firebase
     function saveScoreToFirebase(playerName, playerScore) {
       const leaderboardRef = ref(database, 'leaderboard');
@@ -332,7 +380,7 @@
         date: new Date().toLocaleDateString()
       });
     }
-    
+
     // Fetch and display leaderboard data
     function getLeaderboardFromFirebase() {
       const leaderboardRef = query(ref(database, 'leaderboard'), orderByChild('score'), limitToLast(5));
