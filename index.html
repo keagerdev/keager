@@ -52,16 +52,6 @@
 </head>
 <body class="bg-gray-50 text-gray-900 tracking-wider leading-normal">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-T0CB823SWJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-T0CB823SWJ');
-</script>
-
 <!-- Header -->
 <nav class="bg-white px-6 py-4 shadow">
     <div class="flex justify-between items-center">
@@ -111,6 +101,89 @@
     }
   }
   </script>
+
+<!-- Consent Banner -->
+<div id="cookie-consent-banner" class="fixed bottom-0 left-0 w-full bg-gray-800 text-white py-4 px-6 z-50 shadow-lg transition transform translate-y-full opacity-0" style="display: none;">
+  <div class="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+    <p class="text-sm md:text-base">
+      This website uses cookies to enhance your experience. Do you accept?
+    </p>
+    <div class="space-x-4">
+      <button id="accept-cookies" class="bg-green-500 text-white py-2 px-4 rounded-lg shadow-md transition-transform transform hover:translate-y-1 hover:bg-green-600">
+        Accept
+      </button>
+      <button id="decline-cookies" class="bg-red-500 text-white py-2 px-4 rounded-lg shadow-md transition-transform transform hover:translate-y-1 hover:bg-red-600">
+        Decline
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Google Analytics Consent Management -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T0CB823SWJ"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+// Set default consent values to 'denied' for privacy reasons
+gtag('consent', 'default', {
+  'ad_storage': 'denied',
+  'analytics_storage': 'denied'
+});
+
+// Initialize Google Analytics without sending any data until consent is granted
+gtag('config', 'G-T0CB823SWJ', {
+  'anonymize_ip': true, // Optional: anonymize user IP
+  'send_page_view': false // Disable automatic page view tracking
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const consentBanner = document.getElementById("cookie-consent-banner");
+  const acceptButton = document.getElementById("accept-cookies");
+  const declineButton = document.getElementById("decline-cookies");
+
+  // Check if consent has already been given
+  const consent = localStorage.getItem("cookieConsent");
+
+  // Show the consent banner if no consent has been given
+  if (!consent) {
+    consentBanner.style.display = "block";
+    setTimeout(() => {
+      consentBanner.style.transform = "translateY(0)";
+      consentBanner.style.opacity = "1";
+    }, 200);
+  }
+
+  // Function to initialize Google Analytics after consent is granted
+  function initializeAnalytics() {
+    gtag('consent', 'update', {
+      'ad_storage': 'granted',
+      'analytics_storage': 'granted'
+    });
+    gtag('event', 'page_view'); // Send a page view event after consent
+  }
+
+  // Handle consent acceptance
+  acceptButton.onclick = function () {
+    localStorage.setItem("cookieConsent", "accepted"); // Store consent
+    consentBanner.style.transform = "translateY(100%)";
+    consentBanner.style.opacity = "0";
+    setTimeout(() => { consentBanner.style.display = "none"; }, 500);
+    initializeAnalytics(); // Initialize Google Analytics
+  };
+
+  // Handle consent decline
+  declineButton.onclick = function () {
+    localStorage.setItem("cookieConsent", "declined"); // Store declined state
+    consentBanner.style.transform = "translateY(100%)";
+    consentBanner.style.opacity = "0";
+    setTimeout(() => { consentBanner.style.display = "none"; }, 500);
+  };
+});
+</script>
 
 <!-- Hero Section -->
 <section id="home" class="flex items-center justify-center min-h-screen bg-cover bg-center overflow-hidden" style="background-image: url('halstatt.jpg');">
@@ -195,6 +268,7 @@
     
 </form>
   </div>
+
 <!-- Footer -->
 <footer class="bg-white py-4">
   <div class="container mx-auto px-6 text-center">
