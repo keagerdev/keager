@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://www.keager.net/favicon.png">
+    <title>JK3 Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f0f0f0 0%, #d4d4d4 100%);
+            font-family: 'Poppins', sans-serif;
+        }
+        .glass {
+            backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+        .status-on-time {
+            color: #38a169; /* Tailwind's green */
+        }
+        .status-delayed {
+            color: #e53e3e; /* Tailwind's red */
+        }
+        .bin-blue {
+            background: linear-gradient(135deg, #56CCF2 0%, #2F80ED 100%);
+        }
+        .bin-brown {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Time and Date Widget -->
+            <div class="glass p-6 text-center">
+                <h1 id="current-time" class="text-5xl font-bold text-gray-800">13:07</h1>
+                <p id="current-date" class="text-xl text-gray-600">Sunday, September 26th, 2024</p>
+            </div>
+            <script>
+                function updateTime() {
+                    const now = new Date();
+                    const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    const dateString = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                    document.getElementById('current-time').textContent = timeString;
+                    document.getElementById('current-date').textContent = dateString;
+                }
+                setInterval(updateTime, 1000);
+                updateTime();
+            </script>
+            
+            <!-- Weather Widget -->
+            <div class="glass p-8 text-center">
+                <iframe src="https://www.meteoblue.com/en/weather/widget/three/rainhill_united-kingdom_2639689?geoloc=fixed&days=3&tempunit=CELSIUS&windunit=METER_PER_SECOND&layout=bright" frameborder="0" scrolling="NO" class="w-full h-40 mt-4"></iframe>
+            </div>
+            
+                        <!-- Bin Collection Checker Widget -->
+                        <div id="bin-collection" class="glass p-6 text-center">
+                            <h2 class="text-2xl font-semibold text-gray-800">Loading...</h2>
+                        </div>
+                        <script type="module">
+                            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+                            import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+                    
+                            const firebaseConfig = {
+                                apiKey: "AIzaSyCoWbauCi4IAK7VRM_paX0ArMT979xtl34",
+                                authDomain: "live-dashboard-84cb4.firebaseapp.com",
+                                databaseURL: "https://live-dashboard-84cb4-default-rtdb.europe-west1.firebasedatabase.app",
+                                projectId: "live-dashboard-84cb4",
+                                storageBucket: "live-dashboard-84cb4.appspot.com",
+                                messagingSenderId: "88163452464",
+                                appId: "1:88163452464:web:c43aa7b8dd128ca59bcff5",
+                                measurementId: "G-22S2Q4RXNE"
+                            };
+                    
+                            const app = initializeApp(firebaseConfig);
+                            const database = getDatabase(app);
+                    
+                            const collectionRef = ref(database, 'next-collection');
+                            onValue(collectionRef, (snapshot) => {
+                                const data = snapshot.val();
+                                const binContainer = document.getElementById("bin-collection");
+                                if (data) {
+                                    let binClass = data.Colour.toLowerCase() === 'blue' ? 'bin-blue' : 'bin-brown';
+                                    binContainer.classList.add(binClass);
+                                    binContainer.innerHTML = `
+                                        <h2 class="text-2xl font-semibold text-white">Next Bin Collection</h2>
+                                        <p class="text-white"><strong>Date:</strong> ${data.FullDate}</p>
+                                        <p class="text-white"><strong>Collection Type:</strong> ${data.CollectionType}</p>
+                                    `;
+                                } else {
+                                    binContainer.innerHTML = "<p>No upcoming collections found.</p>";
+                                }
+                            });
+                        </script>
+
+                        <!-- Media Widget -->
+                        <div class="glass rounded-lg overflow-hidden">
+                            <img src="town.jpg" alt="Media" class="w-full h-[550px] object-cover">
+                        </div>
+            
+                        <!-- To-Do List Widget with Todoist Embed -->
+                        <div id="todo-container" class="glass rounded-lg shadow-lg">
+                        <!-- Todoist Embed iframe without scrolling -->
+                        <iframe src="https://app.todoist.com/app/project/tasks-2340530930" frameborder="0" scrolling="no" 
+                        class="w-full h-[550px] rounded-lg shadow-lg" style="border:none; overflow:hidden; backdrop-filter: blur(20px); background-color: rgba(255, 255, 255, 0.7);"></iframe>
+                        </div>
+            
+                        <!-- Calendar Widget with Google API Embed -->
+                        <div class="glass p-2 text-center">
+                            <script src="https://static.elfsight.com/platform/platform.js" async></script>
+                            <div class="elfsight-app-02058106-18f1-42eb-80cf-14040bbc0a83" data-elfsight-app-lazy></div>
+                        </div>
+            
+                        <!-- Spotify Embed Widget (adjusted for no dead space) -->
+                        <div class="glass rounded-lg overflow-hidden">
+                            <iframe src="https://open.spotify.com/embed/playlist/3E1WCubSECiPOpFVnkniy5" width="100%" height="400px" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                        </div>
+            
+                        <!-- BBC News Breaking News Widget (adjusted for no dead space) -->
+                        <div class="glass rounded-lg overflow-hidden">
+                            <script type="text/javascript" src="https://feed.mikle.com/js/fw-loader.js" preloader-text="Loading" data-fw-param="169444/" style="width:100%;height:80px;"></script>
+                        </div>
+
+            <!-- Train Widget & Placeholder -->
+            <div class="grid rounded-lg grid-cols-2 gap-6">
+
+                <!-- Train Departures Board -->
+                <div class="glass p-4 col-span-2 justify-center">
+                    <h2 class="text-2xl font-semibold text-gray-800">Lea Green Departures</h2>
+                    <div id="loading" class="text-gray-500 text-center">Loading train data...</div>
+                    <table id="trainTable" class="w-full hidden">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-2 text-left">Time</th>
+                                <th class="px-4 py-2 text-left">Destination</th>
+                                <th class="px-4 py-2 text-left">Expected</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trainTableBody" class="text-gray-600"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCqgrrrWjhPbzvocqn6gvGW5hrxQwyK3hI",
+            authDomain: "todo-27768.firebaseapp.com",
+            databaseURL: "https://todo-27768-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "todo-27768",
+            storageBucket: "todo-27768.appspot.com",
+            messagingSenderId: "885760236311",
+            appId: "1:885760236311:web:6ec7e3b10de4964a87b552",
+            measurementId: "G-K4RTJZ1BBW"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+
+        function displayTrainData(trainData) {
+            var tableBody = document.getElementById('trainTableBody');
+            var loadingDiv = document.getElementById('loading');
+            var trainTable = document.getElementById('trainTable');
+
+            loadingDiv.style.display = 'none';
+            trainTable.style.display = 'table';
+
+            trainData.slice(0, 4).forEach(function(train) {
+                var row = document.createElement('tr');
+                row.classList.add('border-b', 'border-gray-200', 'hover:bg-gray-50');
+
+                var timeCell = document.createElement('td');
+                timeCell.textContent = train.time;
+                timeCell.classList.add('px-4', 'py-2');
+                row.appendChild(timeCell);
+
+                var destinationCell = document.createElement('td');
+                destinationCell.textContent = train.destination;
+                destinationCell.classList.add('px-4', 'py-2');
+                row.appendChild(destinationCell);
+
+                var expectedCell = document.createElement('td');
+                expectedCell.textContent = train.expected;
+                expectedCell.classList.add('px-4', 'py-2', train.expected.includes('On time') ? 'status-on-time' : 'status-delayed');
+                row.appendChild(expectedCell);
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        database.ref('/trainData').once('value').then(function(snapshot) {
+            var trainData = snapshot.val();
+            if (trainData) {
+                displayTrainData(trainData);
+            } else {
+                document.getElementById('loading').textContent = 'No train data available.';
+            }
+        }).catch(function(error) {
+            console.error('Error fetching data from Firebase:', error);
+        });
+    </script>
+</body>
+</html>
